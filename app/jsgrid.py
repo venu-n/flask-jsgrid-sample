@@ -25,7 +25,7 @@ class User(db.Model):
 
 @app.route('/index')
 def index():
-    return render_template('jsgrid.html')
+    return render_template('index.html')
 
 @app.route('/user', methods=['GET'])
 #def get_all_users(current_user, pub_id):
