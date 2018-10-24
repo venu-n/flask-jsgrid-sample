@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block title %} Flask-JSGrid-Example{% endblock %}
+{% block content %}
+
+<div id="jsGrid"> </div>
+<script>
+
+    var friends = [
+        {
+            public_id: "Ada Lovelace",
+            name: 36,
+            password: 3,
+            admin: true,
+        }];
+
+    //$(document).ready(function () {
+        $(function() {
+        $("#jsGrid").jsGrid({
+            //height: "100%",
+            width: "100%",
+            //filtering: true,
+            inserting: true,
+            editing: true,
+            sorting: true,
+            //paging: true,
+            autoload: true,
+            //pageSize: 10,
+            // pageButtonCount: 5,
+            //pageLoading: true,
+            deleteConfirm: "Do you really want to delete client?",
+            //data: friends, 
+            controller: {
+
+                loadData: function (filter) {
+                    var data = $.Deferred();
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        //url: "user/a42120a9-0ddb-4eb1-938c-c7073c62cf00",
+                        url: "user",
+                        dataType: "json"
+                    }).done(function (response) {
+                        console.log(response);
+                        data.resolve(response);
+                    });
+                    return data.promise();
+
+                },
+                // loadData: function(filter) {
+                //     console.log(filter);
+                //     var d = $.Deferred();
+                //     $.ajax({
+                //         type: "GET",
+                //         url: "user/a42120a9-0ddb-4eb1-938c-c7073c62cf00",
+                //         data: filter,
+                //         datatype: "json"
+                //     }).done(function(result) {
+
+                //         d.resolve($.map(result, function(item) {
+                //             return $.extend(item.fields, { id: item.pk });
+                //         }));
+                //     });
+                //     return d.promise();
+                // },                   
+
+                //},
+
+                //  controller: {
+                //                     loadData: function (filter) {
+                //     console.log(filter);
+                //     $.ajax({
+                //         type: "GET",
+                //         url: "user/a42120a9-0ddb-4eb1-938c-c7073c62cf00",
+                //         data: filter,
+                //         dataType: "json"
+                //     }).then(function(result) {
+                //         console.log(result);
+                //         return result.data;
+                //     });
+                // },
+                insertItem: function (item) {
+                    
+                    return $.ajax({
+                        type: "POST",
+                        url: "/user",
+                        data: item,
+                        //contentType: "application/json",
+                        dataType: "json"
+
+                    });
+                },
+                updateItem: function (item) {
+                    return $.ajax({
+                        type: "PUT",
+                        url: "/user/" + item.id,
+                        data: item
+                        
+                    });
+                },
+                deleteItem: function (item) {
+                    console.log(item.ID);
+                    return $.ajax({
+                        type: "DELETE",
+                        url: "/user/" + item.ID
+                    });
+                }
+            },
+            fields: [
+               
+                { name: "ID", title:"ID", type: "text", width: 200 },
+                { name: "UserName", title:"User Name", type: "text", width: 100 },
+                { name: "Psswd", title:"Password", type: "text", width: 200 },
+                { name: "isAdmin", title:"is Admin?", type: "text", width: 100 },
+                { type: "control" }
+            ]
+
+        });
+    });
+
+</script>
+
+{% endblock content %}

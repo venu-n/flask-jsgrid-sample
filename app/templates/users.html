@@ -1,0 +1,547 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<style>
+.jsgrid-grid-header,
+.jsgrid-grid-body{
+  overflow: auto;
+}
+</style>
+
+
+<!-- EMPLOYEE MASTER's MANAGEMENT -->
+<div class="row">
+        <div class="col">
+            <div class="card text-dark" >
+                <div class="card-header " id="headingThree">
+                    <button class="btn btn-sm btn-link collapsed"  data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fa fa-users text-dark"></i></button> Employee Master (Admin)
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body bg-light " style="font-size: 12px">
+                        <table id="empGrid"  class="table_text"></table>
+                    
+                        <div id="detailsDialog">
+                                <form id="detailsForm">
+                                    <div class="details-form-field">
+                                        <label for="EmployeeGPN">EmployeeGPN:</label>
+                                        <input id="EmployeeGPN" name="EmployeeGPN" type="text" />
+                                    </div>
+                                    <div class="details-form-field">
+                                        <label for="EmployeeName">EmployeeName:</label>
+                                        <input id="EmployeeName" name="EmployeeName" type="number" />
+                                    </div>
+                                    <div class="details-form-field">
+                                        <label for="DoJ">DoJ:</label>
+                                        <input id="DoJ" name="DoJ" type="text" />
+                                    </div>
+                                    <div class="details-form-field">
+                                        <label for="CorePractice">CorePractice:</label>
+                                        <input id="CorePractice" name="CorePractice" type="text" />
+                                    </div>
+                                    <div class="details-form-field">
+                                            <button type="submit" id="save">Save</button>
+                                        </div>
+                                </form>
+                            </div>
+                    
+                    
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <div class="card text-dark">
+                    <div class="card-header " id="headingFour">
+                        <button class="btn btn-sm btn-link collapsed"  data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                <i class="fa fa-gears text-dark"></i></button> Project Master (Admin)
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body bg-light " style="font-size: 12px">
+                            <table id="pjtGrid" class="table_text"></table>
+    
+                        </div>
+                    </div>
+                </div>
+    
+          </div>  
+    </div>
+
+<!-- USER MANAGEMENT -->
+<div class="row">
+    <div class="col col-sm-5">
+        <div class="card-body bg-light " style="font-size: 12px" style="padding:0px 0px 0px 0px;">
+        <div class="card-title" style="font-size: 14px"><Strong><i class="fa fa-user text-info"></i> User Management (Admin)</Strong></div>    
+            <table id="userMgmtGrid" class="table_text" style="padding:0px 0px 0px 0px;"></table>
+        </div>
+    </div>
+
+<!-- END - USER MANAGEMENT -->
+<!-- DASHBOARD DATA MANAGEMENT -->
+
+    <div class="col col-sm-4">
+            <div class="card-body bg-light" style="font-size: 12px">
+                <div class="card-title" style="font-size: 14px"><Strong><i class="fa fa-line-chart text-info"></i> Dashboard Data Management</Strong></div>
+            <form class="form-line" action="/dashdata" method="POST">
+                        <label for="staticName5" class="col-sm-3"><strong>Fiscal Year</strong></label>
+                        <select type="select" name="staticName5" class="col-sm-4 no-padding">
+                            <option>FY18-March</option>
+                            <option>FY18-April</option>
+                            <option>FY18-May</option>
+                            <option>FY18-June</option>
+                        </select> <br>
+                        <label for="staticName7" class="col-sm-3"><strong>Utilization</strong></label>
+                        <input name="staticName7" class="col-sm-2"></input>
+                        <label for="staticName1" class="col-sm-3"><strong>Client Visits</strong></label>
+                        <input name="staticName1" class="col-sm-2"></input>
+                        <label for="staticName2" class="col-sm-3"><Strong>HoursCharged</Strong></label>
+                        <input name="staticName2" class="col-sm-2"></input>
+                        <label for="staticName3" class="col-sm-3"><Strong>VOC Rating</Strong></label>
+                        <input name="staticName3" class="col-sm-2"></input>
+                        <label for="staticName4" class="col-sm-3"><strong>Retention</strong></label>
+                        <input name="staticName4" class="col-sm-2"></input>
+                        <label for="button" class="col-sm-3"><strong></strong></label>
+                        <button type="submit" class="btn btn-sm col-sm-2 btn-info" style="font-size:12px">Save</button>
+
+            </form>
+        </div>
+    </div>
+
+<!-- END - DASHBOAR DATAMANAGEMENT -->
+<!-- FILE UPLOAD -->
+
+    <div class="col col-sm-3">
+            <div class="card-body bg-light" style="font-size: 12px">
+                    <div class="card-title" style="font-size: 14px"><Strong><i class="fa fa-upload text-info"></i> Upload Master Data</Strong></div>
+        <form action="/uploadcsv?dt=user" method="post" enctype="multipart/form-data" >
+            <label for="data_file" style="font-size:12px"><strong>Upload employee master</strong></label><br>
+            <input class="btn btn-sm " type="file" name="data_file" style="font-size:12px"/>
+            <input class="btn btn-sm btn-info" type="submit" style="font-size:12px" />
+        </form>
+
+        <form action="/uploadcsv?dt=eng" method="post" enctype="multipart/form-data">
+            <label for="data_file" style="font-size:12px"><strong>Upload project master</strong></label><br>
+            <input class="btn btn-sm " type="file" name="data_file" style="font-size:12px"/>
+            <input class="btn btn-sm btn-info" type="submit" style="font-size:12px"/>
+        </form>
+    </div>
+    </div>
+</div>
+    <!-- END - FILE UPLOAD -->
+
+
+
+
+<script>
+$("#search").click(function() { 
+    var field = $("#searchField").find(":selected").text();
+	$("#userMgmtGrid").jsGrid("search", {field: $("#searchData").val()})
+});
+// USER GRID ADD / VIEW / MODIFY / DELETE   //
+$(function() {
+    $("#userMgmtGrid").jsGrid({
+                width: "100%",
+                //height: "225px",
+                //filtering: true,
+
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 5,
+                //pageButtonCount: 5,
+                //deleteConfirm: "Do you really want to delete client?",               
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/user",
+                            dataType: 'json',
+                            data: filter
+                        });
+                    
+                    },
+                    loadIndicator: function(config) {
+                    var container = config.container[0];
+                    var spinner = new Spinner();
+                    return {
+                        show: function() {
+                            spinner.spin(container);
+                        },
+                        hide: function() {
+                            spinner.stop();
+                        }
+                    };
+                },
+                /* insertItem: function(item) {
+                        
+                        return $.ajax({
+                            type: "POST",
+                            url: "/user",
+                            dataType: 'json',
+                            data: item 
+                        });
+                        console.log(JSON.stringify(item)) 
+                    }, */
+                insertItem: function (item) {
+                   // console.log(JSON.stringify(item)) 
+                   // console.log(item)
+                    var d = $.Deferred();
+                            $.ajax({
+                                type: "POST",
+                                url: "/user",
+                                data: item
+                                //contentType: "application/json; charset=utf-8"
+                            }).done(function (response, textStatus, errorThrown){
+                               d.resolve(response); 
+                              $("#jsGrid").jsGrid("loadData");
+                        }).fail(function (xhr, exception){
+                            console.log("Failed to update!")
+                        });
+                        return d.promise();
+                            
+                    },
+                    updateItem: function(item) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "/user/" + item.Public_id,
+                            data: item
+                        });
+                        
+                    },
+                    deleteItem: function(item) {
+                        return $.ajax({
+                            type: "DELETE",
+                            url: "/user/" + item.Public_id,
+                        });
+                    }
+                },
+                fields: [
+                { type: "control", width: 2, deleteButton: false, editing: false },
+                //{ name: "Public_id", type: "text", width: 40, editing: false },
+                { name: "GPN", type: "text", width: 25, editing: false }, 
+                { name: "Password", type: "text", width: 40, editing: true },
+                { name: "isAdmin", type: "checkbox", width: 10, sorting:false, editing: true }, 
+                { name: "isActive", type: "checkbox", width: 10, sorting:false, editing: true },
+                //{ name: "Create_dt_time", type: "text", width: 40, editing: false }, 
+                //{ name: "Update_dt_time", type: "text", width: 40, editing: false }                              
+                ]
+            });
+
+});
+// LAB --- EMPLOYEE GRID LAB -- ADD / VIEW / MODIFY / DELETE   //
+$(function() {
+    $("#empGrid1").jsGrid({
+                width: "100%",
+                height: "450",
+                //filtering: true,
+                //inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 15,
+                pageButtonCount: 5,
+                rowClick: function(args) {
+                    showDetailsDialog("Edit", args.item);
+                    },
+                //deleteConfirm: "Do you really want to delete client?",          
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/empall",
+                            dataType: 'json',
+                            data: filter
+                        });
+                    
+                    },
+                    loadIndicator: function(config) {
+                    var container = config.container[0];
+                    var spinner = new Spinner();
+                    return {
+                        show: function() {
+                            spinner.spin(container);
+                        },
+                        hide: function() {
+                            spinner.stop();
+                        }
+                    };
+                },
+                /* insertItem: function(item) {
+                        
+                        return $.ajax({
+                            type: "POST",
+                            url: "/user",
+                            dataType: 'json',
+                            data: item 
+                        });
+                        console.log(JSON.stringify(item)) 
+                    }, */
+                insertItem: function (item) {
+                   // console.log(JSON.stringify(item)) 
+                   // console.log(item)
+                    var d = $.Deferred();
+                            $.ajax({
+                                type: "POST",
+                                url: "/user",
+                                data: item
+                                //contentType: "application/json; charset=utf-8"
+                            }).done(function (response, textStatus, errorThrown){
+                               d.resolve(response); 
+                              $("#jsGrid").jsGrid("loadData");
+                        }).fail(function (xhr, exception){
+                            console.log("Failed to update!")
+                        });
+                        return d.promise();
+                            
+                    },
+                    updateItem: function(item) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "/user/" + item.Public_id,
+                            data: item
+                        });
+                        
+                    },
+                    deleteItem: function(item) {
+                        return $.ajax({
+                            type: "DELETE",
+                            url: "/user/" + item.Public_id,
+                        });
+                    }
+                },
+                fields: [
+
+                { name: "EmployeeGPN", type: "text", width: 45, editing: false },
+                { name: "EmployeeName", type: "text", width: 60, editing: false }, 
+                { name: "DoJ", type: "text", width: 30, editing: false },
+                { name: "CorePractice", type: "text", width: 40, sorting:false, editing: true }, 
+                { name: "WorkingPractice", type: "text", width: 40, sorting:false, editing: true },
+                { name: "Rank", type: "text", width: 40, editing: false }, 
+                { name: "Grade", type: "text", width: 40, editing: false },
+                { name: "Designation", type: "text", width: 40, editing: false }, 
+                { name: "BaseLocation", type: "text", width: 40, editing: false },  
+                { name: "isCounselor", type: "text", width: 40, editing: false },  
+                { name: "CounselorGPN", type: "text", width: 45, editing: false },  
+                { name: "CounselorName", type: "text", width: 40, editing: false },  
+                { name: "Gender", type: "text", width: 40, editing: false },  
+                { name: "email", type: "text", width: 60, editing: false },  
+                { name: "Mobile", type: "text", width: 40, editing: false },  
+                { name: "UserName", type: "text", width: 40, editing: false },  
+                { name: "Status", type: "text", width: 40, editing: false },
+                { type: "control", modeSwitchButton: false, width: 7, 
+                    editButton: false,
+                    headerTemplate: function() {
+                            return $("<button>").attr("type", "button").text("Add")
+                                .on("click", function () {
+                                showDetailsDialog("Add", {});
+                            });
+                }}
+                                           
+                ]
+            });
+
+           $("#detailsDialog").dialog({
+        autoOpen: false,
+       width: 400,
+       // close: function() {
+       //    $("#detailsForm").validate().resetForm();
+       //     $("#detailsForm").find(".error").removeClass("error");
+       // }
+    });
+       $("#detailsForm").validate({
+        rules: {
+            EmployeeGPN: "required",
+            EmployeeName: "required",
+            DoJ: "required",
+            CorePractice: "required"
+        },
+        messages: {
+            name: "Please enter gpn",
+            age: "Please enter name",
+            address: "Please enter DoJ",
+            country: "Please enter CorePratice"
+        },
+        submitHandler: function() {
+            formSubmitHandler();
+        } 
+       });
+ 
+    var formSubmitHandler = $.noop;
+
+    var showDetailsDialog = function(dialogType, client) {
+        $("#EmployeeGPN").val(client.EmployeeGPN);
+        $("#EmployeeName").val(client.EmployeeName);
+        $("#DoJ").val(client.DoJ);
+        $("#CorePractice").val(client.CorePractice);
+        //$("#married").prop("checked", client.Married);
+ 
+        formSubmitHandler = function() {
+            saveClient(client, dialogType === "Add");
+        };
+ 
+        $("#detailsDialog").dialog("option", "title", dialogType + " Client")
+                .dialog("open");
+    };
+
+    var saveClient = function(client, isNew) {
+        $.extend(client, {
+            EmployeeGPN: $("#EmployeeGPN").val(),
+            EmployeeName: $("#EmployeeName").val(),
+            DoJ: $("#DoJ").val(),
+            CorePractice: $("#CorePractice").val()
+            //Married: $("#married").is(":checked")
+        });
+ 
+        $("#empGrid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+ 
+        $("#detailsDialog").dialog("close");
+    };
+});
+// EMPLOYEE GRID ADD / VIEW / MODIFY / DELETE   //
+$(function() {
+    $("#empGrid").jsGrid({
+                width: "100%",
+                height: "375",
+                //filtering: true,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 15,
+                pageButtonCount: 5,
+                //deleteConfirm: "Do you really want to delete client?",          
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/empall",
+                            dataType: 'json',
+                            data: filter
+                        });
+                    
+                    },
+                 insertItem: function(item) {
+                        
+                        return $.ajax({
+                            type: "POST",
+                            url: "/empall",
+                            dataType: 'json',
+                            data: item 
+                        });
+                        console.log(JSON.stringify(item)) 
+                    }, 
+                    updateItem: function(item) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "/empall/"+ item.EmployeeGPN,
+                            data: item
+                        });
+                        
+                    }
+                    //deleteItem: function(item) {
+                    //    return $.ajax({
+                    //        type: "DELETE",
+                    //        url: "/empall/IN01M04523",
+                    //   });
+                    //}
+                },
+                fields: [
+                { type: "control", width: 10, editing: false },
+                { name: "EmployeeGPN", type: "text", width: 40, editing: false },
+                { name: "EmployeeName", type: "text", width: 45, editing: false }, 
+                { name: "DoJ", type: "text", width: 30, editing: false },
+                { name: "CorePractice", type: "text", width: 40, sorting:false, editing: true }, 
+                { name: "WorkingPractice", type: "text", width: 40, sorting:false, editing: true },
+                { name: "Rank", type: "text", width: 40, editing: true }, 
+                { name: "Grade", type: "text", width: 40, editing: true },
+                { name: "Designation", type: "text", width: 40, editing: true }, 
+                { name: "BaseLocation", type: "text", width: 40, editing: true },  
+                { name: "isCounselor", type: "text", width: 40, editing: true },  
+                { name: "CounselorGPN", type: "text", width: 45, editing: true },  
+                { name: "CounselorName", type: "text", width: 40, editing: true },  
+                { name: "Gender", type: "text", width: 40, editing: false },  
+                { name: "email", type: "text", width: 60, editing: false },  
+                { name: "Mobile", type: "text", width: 40, editing: true },  
+                { name: "UserName", type: "text", width: 40, editing: false },  
+                { name: "Status", type: "text", width: 40, editing: true }                    
+                ]
+            });
+});
+// PROJECT GRID ADD / VIEW / MODIFY / DELETE    //
+$(function() {
+    $("#pjtGrid").jsGrid({
+                width: "100%",
+                height: "355px",
+                //filtering: true,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                autoload: true,
+                pageSize: 10,
+                pageButtonCount: 5,
+                //deleteConfirm: "Do you really want to delete client?",
+                                
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            type: "GET",
+                            url: "/pjtall",
+                            dataType: 'json',
+                            data: filter
+                        });
+                    
+                    },
+                   insertItem: function(item) {
+                        
+                        return $.ajax({
+                            type: "POST",
+                            url: "/pjtall",
+                            dataType: 'json',
+                            data: item 
+                        });
+                        console.log(JSON.stringify(item)) 
+                    },
+                    updateItem: function(item) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "/pjtall/" + item.EngCode,
+                            data: item
+                        });
+                        
+                    }
+                    //deleteItem: function(item) {
+                    //    return $.ajax({
+                    //        type: "DELETE",
+                    //        url: "/user/" + item.Public_id,
+                    //    });
+                    //}
+                },
+                fields: [
+                { type: "control",width: 10, editing: false },
+                { name: "EngCode", type: "text", width: 40, editing: false },
+                { name: "EngName", type: "text", width: 40, editing: false }, 
+                { name: "Area", type: "text", width: 40, editing: true },
+                { name: "Sector", type: "text", width: 40, editing: true }, 
+                { name: "SubSector", type: "text", width: 40, editing: true },
+                { name: "IVV", title: "IVV ?", type: "text", width: 40, editing: true }, 
+                { name: "StartDate", type: "text", width: 40, editing: true },
+                { name: "EndDate", type: "text", width: 40, editing: true },
+                { name: "EngPartnerGPN", type: "text", width: 40, editing: true },
+                { name: "EngPartnerName", type: "text", width: 40, editing: true },
+                { name: "Status", type: "text", width: 20, editing: true }                                
+                ]
+            });
+
+});
+
+</script>
+{% endblock body%}
+
